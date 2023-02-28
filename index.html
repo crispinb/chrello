@@ -9,7 +9,13 @@
   </head>
 
   <body>
-    <h1 class="text-2xl text-blue-500">Chrello</h1>
-    <p class='text-red-800'>test of red text</p>
+    <h1 class="text-2xl text-blue-500">Chrello, the movie</h1>
+    <div id='container' class="flex h-screen mb-10 space-x-10 p-5 bg-gray-400">
+      <div id='column-1' class="flex-col w-52 bg-slate-100" x-data='cvapi'>
+        <template x-for='list in lists()'>
+          <div id='card-1' class='bg-blue-300 m-1 p-2' x-text='list.name' x-on:click="cardTap(list.id)"></div>
+        </template>
+      </div>
+    </div>
   </body>
 </html>

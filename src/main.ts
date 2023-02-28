@@ -1,21 +1,30 @@
 import { invoke } from "@tauri-apps/api/tauri";
+import Alpine from 'alpinejs';
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
-
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
-  }
+async function cardTap(item_id) : Promise<String> {
+  console.log(`tapped: ${typeof item_id}`);
+  console.log(`--> card tapped ${JSON.stringify(item_id)}`);
+  return await invoke("item_chosen", {itemId: item_id});
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document
-    .querySelector("#greet-button")
-    ?.addEventListener("click", () => greet());
+async function getTasks(): Promise<Array<any>> {
+  console.log("--> getTasks()");
+  return await (invoke("get_tasks"));
+}
+
+async function getLists(): Promise<Array<any>> {
+  console.log("--> getLists()");
+  return await (invoke("get_lists"));
+}
+
+Alpine.data('cvapi', () => {
+  return {
+    init() { console.log('cvapi init') },
+    lists: getLists,
+    tasks: getTasks,
+    cardTap: cardTap,
+  }
 });
+
+Alpine.start();
+
