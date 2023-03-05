@@ -10,12 +10,22 @@
 
   <body>
     <h1 class="text-2xl text-blue-500">Chrello, the movie</h1>
-    <div id='container' class="flex h-screen mb-10 space-x-10 p-5 bg-gray-400">
-      <div id='column-1' class="flex-col w-52 bg-slate-100" x-data='cvapi'>
-        <template x-for='list in lists()'>
-          <div id='card-1' class='bg-blue-300 m-1 p-2' x-text='list.name' x-on:click="cardTap(list.id)"></div>
-        </template>
-      </div>
+    <div x-data='api' id='container' class="flex h-screen mb-10 space-x-10 p-5 bg-gray-400">
+      <div x-data='await data'>
+      <pre x-text='JSON.stringify(columns, null, 2)'></pre>
+      <!-- <template x-for='col in data.columns'> -->
+      <!--   <div class='col bg-red-200'> -->
+      <!--     <p x-text='col.name'/> -->
+      <!--     <hr /> -->
+      <!--     <div> -->
+      <!--       <!-1- nesting templates requires a nested parent element -1-> -->
+      <!--       <template x-for='card in col.cards'> -->
+      <!--         <p x-text='card.content'/> -->
+      <!--       </template> -->
+      <!--     </div> -->
+      <!--   </div> -->
+      <!-- </div> -->
+      <!-- </template> -->
     </div>
   </body>
 </html>
