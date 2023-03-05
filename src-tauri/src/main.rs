@@ -40,6 +40,7 @@ fn api_client(token: &str) -> CheckvistClient {
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
+            // open devtools when not prod
             #[cfg(debug_assertions)]
             {
                 let window = app.get_window("main").unwrap();

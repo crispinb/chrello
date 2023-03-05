@@ -2,30 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="./src/style.css"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chrello</title>
-    <script type="module" src="/src/main.ts" defer></script>
   </head>
-
   <body>
-    <h1 class="text-2xl text-blue-500">Chrello, the movie</h1>
-    <div x-data='api' id='container' class="flex h-screen mb-10 space-x-10 p-5 bg-gray-400">
-      <div x-data='await data'>
-      <pre x-text='JSON.stringify(columns, null, 2)'></pre>
-      <!-- <template x-for='col in data.columns'> -->
-      <!--   <div class='col bg-red-200'> -->
-      <!--     <p x-text='col.name'/> -->
-      <!--     <hr /> -->
-      <!--     <div> -->
-      <!--       <!-1- nesting templates requires a nested parent element -1-> -->
-      <!--       <template x-for='card in col.cards'> -->
-      <!--         <p x-text='card.content'/> -->
-      <!--       </template> -->
-      <!--     </div> -->
-      <!--   </div> -->
-      <!-- </div> -->
-      <!-- </template> -->
-    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

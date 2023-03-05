@@ -1,5 +1,5 @@
 {
-  "name": "chrello",
+  "name": "preacty",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",
-    "alpinejs": "^3.11.1"
+    "preact": "^10.13.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.2.2",
-    "@types/alpinejs": "^3.7.1",
+    "@types/node": "^18.7.14",
+    "@babel/core": "^7.12.10",
+    "@preact/preset-vite": "^2.5.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
