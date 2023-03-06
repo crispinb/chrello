@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'preact/hooks';
-import { invoke } from '@tauri-apps/api';
 import ColumnComponent, { Column, Card } from './components/column';
+import { UICard, UIColumn, UIBoard, getDummyData } from './bindings';
 
 export function App() {
-  const [data, setData] = useState({});
+  // there must be a better way to coerce the useState type?
+  const emptyBoard: UIBoard = { columns: [] };
+  const [data, setData] = useState(emptyBoard);
   useEffect(() => {
     console.log('------> useEffect');
     const getData = async () => {
-      const rustData = await invoke("get_dummy_data");
-      console.log(`setting data to ${JSON.stringify(rustData)}`);
+      const rustData: UIBoard = await getDummyData();
+      console.log(`retturnd data is: ${JSON.stringify(rustData)}`);
       setData(rustData);
     }
 

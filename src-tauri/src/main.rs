@@ -3,30 +3,33 @@
     windows_subsystem = "windows"
 )]
 
-use serde::Serialize;
+use specta::{ Type, collect_types };
+use tauri_specta::ts;
+use serde::{ Serialize, Deserialize };
 use cvapi::{Checklist, CheckvistClient, Task};
 use cvcap::creds;
 use tauri::Manager;
 
-#[derive(Serialize)]
+#[derive(Serialize, Type)]
 struct UICard {
     id: u32,
     content: String
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Type)]
 struct UIColumn {
     name: String,
     id: u32,
     cards: Vec<UICard>
     }
 
-#[derive(Serialize)]
+#[derive(Serialize, Type)]
 struct UIBoard {
     columns: Vec<UIColumn>
 }
 
 #[tauri::command]
+#[specta::specta]
 fn get_dummy_data() -> UIBoard {
     let card = UICard{ id: 1, content: "a card".into()};
     let card2 = UICard{ id: 12, content: "a card in anovva col".into()};
@@ -76,6 +79,9 @@ fn main() {
                 window.set_size(size).unwrap();
                 window.open_devtools();
             }
+
+            // export specta types
+            ts::export(collect_types![get_dummy_data], "../src/bindings.ts").unwrap();
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![item_chosen, get_tasks, get_lists, get_dummy_data])

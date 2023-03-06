@@ -1,14 +1,7 @@
-import CardComponent, { Card} from './card';
+import CardComponent  from './card';
+import { UICard, UIColumn, UIBoard } from './bindings.ts';
 
-export interface Column {
-  id: number,
-  name: string
-  cards: Array<Card>
-}
-
-export default function ColumnComponent(col: Column) {
-  console.log('col: ', col);
-  const{ id, name, cards }  = col;
+export default function ColumnComponent({id, name, cards}: UIColumn) {
   console.log(`cards: ${JSON.stringify(cards)}`);
 
   return (
