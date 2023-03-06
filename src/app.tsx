@@ -1,52 +1,66 @@
+import ColumnComponent, { Column, Card } from './components/column';
+
 const dummyData = {
   columns: [
     {
-      name: "colname1",
+      name: "col1",
       id: 1,
       cards: [
         {
           id: 1,
-          content: "this is the card1",
+          content: " card1",
         },
         {
           id: 2,
-          content: "this is more card2",
+          content: " card2",
         }
-      ]},
-      {
-        name: "colname2",
-        id: 2,
-        cards: [
-          {
-            id: 1,
-            content: "this is the card-2/3",
-          },
-          {
-            id: 2,
-            content: "this is more ca2/4",
-          }
-        ]},
-{
-        name: "colname3",
-        id: 2,
-        cards: [
-          {
-            id: 1,
-            content: "this is the card-2/3",
-          },
-          {
-            id: 2,
-            content: "this is more ca2/4",
-          }
-        ]}
+      ]
+    },
+    {
+      name: "colname2",
+      id: 2,
+      cards: [
+        {
+          id: 1,
+          content: " card-2/3",
+        },
+        {
+          id: 2,
+          content: " ca2/4",
+        }
+      ]
+    },
+    {
+      name: "colname3",
+      id: 2,
+      cards: [
+        {
+          id: 1,
+          content: " card-3/1",
+        },
+        {
+          id: 2,
+          content: "card 3/2",
+        }
+      ]
+    }
   ]
 };
 
-export function App<FC>() {
+function getData() {
+  return dummyData;
+}
+
+export function App() {
+  const columns = getData().columns;
   return (
-    <div class="container">
-      <h1 class="text-3xl font-bold">Chrello</h1>
-      <p class="text-sky-700">Preact + tailwind</p>
-    </div>
+    <>
+      <h1 class='text-xl font-semibold text-blue-500'>Chrello</h1>
+      <div class='flex m-4'>
+        {columns.map(col => (
+        <ColumnComponent {...col } />
+        ))}
+      </div>
+    </>
   );
 }
