@@ -2,11 +2,39 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
+
+use serde::Serialize;
 use cvapi::{Checklist, CheckvistClient, Task};
-// TODO: this is fine for now, but cvcap/cli may need rearranging to make the lib handy for
-// external use 
 use cvcap::creds;
 use tauri::Manager;
+
+#[derive(Serialize)]
+struct UICard {
+    id: u32,
+    content: String
+}
+
+#[derive(Serialize)]
+struct UIColumn {
+    name: String,
+    id: u32,
+    cards: Vec<UICard>
+    }
+
+#[derive(Serialize)]
+struct UIBoard {
+    columns: Vec<UIColumn>
+}
+
+#[tauri::command]
+fn get_dummy_data() -> UIBoard {
+    let card = UICard{ id: 1, content: "a card".into()};
+    let card2 = UICard{ id: 12, content: "a card in anovva col".into()};
+    let col = UIColumn{id: 1, name: "col1".into(), cards: vec!(card)};
+    let col2 = UIColumn{id: 2, name: "col2".into(), cards: vec!(card2)};
+
+    UIBoard{columns: vec!(col, col2)}
+}
 
 #[tauri::command]
 fn item_chosen(item_id: i32) -> String {
@@ -50,7 +78,7 @@ fn main() {
             }
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![item_chosen, get_tasks, get_lists])
+        .invoke_handler(tauri::generate_handler![item_chosen, get_tasks, get_lists, get_dummy_data])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

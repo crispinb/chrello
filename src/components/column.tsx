@@ -6,7 +6,9 @@ export interface Column {
   cards: Array<Card>
 }
 
-export default function ColumnComponent({ id, name, cards }: Column) {
+export default function ColumnComponent(col: Column) {
+  console.log('col: ', col);
+  const{ id, name, cards }  = col;
   console.log(`cards: ${JSON.stringify(cards)}`);
 
   return (
