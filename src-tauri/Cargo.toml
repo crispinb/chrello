@@ -29,3 +29,7 @@ default = ["custom-protocol"]
 # this feature is used used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
 custom-protocol = ["tauri/custom-protocol"]
+
+[dev-dependencies]
+fake = {version="2.5.0", features=["derive"]}
+rand = "0.8.5"
