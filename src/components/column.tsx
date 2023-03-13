@@ -1,7 +1,7 @@
 import CardComponent  from './card';
-import { UICard, UIColumn, UIBoard } from './bindings.ts';
+import { type UICard, UIColumn, UIBoard } from './bindings.ts';
 
-export default function ColumnComponent({id, name, cards}: UIColumn) {
+export default function ColumnComponent({id, name, cards} : UIColumn) {
   console.log(`cards: ${JSON.stringify(cards)}`);
 
   return (

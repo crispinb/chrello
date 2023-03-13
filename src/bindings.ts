@@ -8,10 +8,18 @@ declare global {
 
 const invoke = window.__TAURI_INVOKE__;
 
+export function initTimer() {
+    return invoke<null>("init_timer")
+}
+
 export function getDummyData() {
     return invoke<UIBoard>("get_dummy_data")
 }
 
+export function setState(newCount: number) {
+    return invoke<null>("set_state", { newCount })
+}
+
+export type UIColumn = { name: string; id: number; cards: UICard[] }
 export type UICard = { id: number; content: string }
 export type UIBoard = { columns: UIColumn[] }
-export type UIColumn = { name: string; id: number; cards: UICard[] }
