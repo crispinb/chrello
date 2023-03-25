@@ -1,4 +1,4 @@
-import * as commands from './bindings.ts';
+import * as commands from './bindings';
 import { appWindow } from '@tauri-apps/api/window'
 import { useState, useEffect } from 'preact/hooks';
 import ColumnComponent, { Column, Card } from './components/column';
@@ -16,38 +16,29 @@ import { UICard, UIColumn, UIBoard, getDummyData } from './bindings';
 export function App() {
   // note the setters are only called from our Rust callbacks in useEffects
   const [board, setBoard] = useState<UIBoard>({ columns: [] });
-  const [count, setCount] = useState<number>(0);
 
+  // fire off initial data load
   useEffect(() => {
-    const start_timer = async () => {
-      await commands.initTimer();
-    };
-      start_timer()
+    console.log('---> load data');
+    const loadData = async () => {
+      await commands.loadInitialData();
+    }
+
+    loadData();
   }, []);
 
   useEffect(() => {
-    console.log('--> state useEffect');
-    const getState = async () => {
-      await appWindow.listen('new-state', (event) => {
-        setCount(event.payload);
-      });
-    };
-    getState();
-  }, []);
-
-  useEffect(() => {
-    const listen = async () => {
-      const unlisten = await appWindow.listen('test-event', (event) => {
-        console.log('got event');
+    const listenForBoardData = async () => {
+      const unlisten = await appWindow.listen('initial-data', (event) => {
+        console.log('got dat');
         console.log(event.payload);
         setBoard(event.payload as UIBoard);
       });
       console.log(`unlisten handler: ${JSON.stringify(unlisten)}`);
       return unlisten;
     }
-    console.log("trying to listen ..");
-    const clear_listener = listen();
-    console.log("returned henalder", clear_listener);
+    const clear_listener = listenForBoardData();
+    console.log("clearer: ", clear_listener);
   }, [board]);
 
 
@@ -57,8 +48,6 @@ export function App() {
       <div class='flex m-4'>
         {board.columns.map(col => <ColumnComponent {...col} />)}
       </div>
-      <span class='font-bold text-green-800'> Count: {count}</span>
-      <button onClick={() => commands.setState(count + 1)}>Inc count</button>
     </>
   );
 }

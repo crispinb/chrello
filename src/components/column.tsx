@@ -2,7 +2,6 @@ import CardComponent  from './card';
 import { type UICard, UIColumn, UIBoard } from './bindings.ts';
 
 export default function ColumnComponent({id, name, cards} : UIColumn) {
-  console.log(`cards: ${JSON.stringify(cards)}`);
 
   return (
     <div id={`col-${id}`} class='bg-slate-200 rounded px-4 pb-8 items-start font-bold'>

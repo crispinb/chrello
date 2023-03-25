@@ -14,6 +14,7 @@ use tauri_specta::ts;
 // use cvapi::{Checklist, CheckvistClient, Task};
 // use cvcap::creds;
 
+struct BoardData(Mutex<UIBoard>);
 
 #[derive(Dummy, Debug, Clone, Serialize, Type)]
 struct UICard {
@@ -21,7 +22,7 @@ struct UICard {
     content: String,
 }
 
-#[derive(Dummy,  Debug, Clone, Serialize, Type)]
+#[derive(Dummy, Debug, Clone, Serialize, Type)]
 struct UIColumn {
     name: String,
     id: u32,
@@ -35,10 +36,19 @@ struct UIBoard {
     columns: Vec<UIColumn>,
 }
 
+impl std::default::Default for UIBoard {
+    fn default() -> Self {
+        Faker.fake()
+    }
+}
+
 #[tauri::command]
 #[specta::specta]
-fn get_dummy_data() -> UIBoard {
-    Faker.fake()
+// TODO: this is just for testing. It probably won't work like this
+fn load_initial_data(window: Window, board: State<BoardData>) {
+    let b = board.0.lock().unwrap().clone();
+   // TODO: can we use specta to type events 
+    window.emit("initial-data", b).unwrap();
 }
 
 fn main() {
@@ -53,13 +63,11 @@ fn main() {
                 window.open_devtools();
             }
             // export specta types
-            ts::export(collect_types![ get_dummy_data ], "../src/bindings.ts").unwrap();
+            ts::export(collect_types![load_initial_data], "../src/bindings.ts").unwrap();
             Ok(())
         })
-        .manage(SimpleState(Mutex::new(42)))
-        .invoke_handler(tauri::generate_handler![
-            get_dummy_data,
-        ])
+        .manage(BoardData(Mutex::new(UIBoard::default())))
+        .invoke_handler(tauri::generate_handler![load_initial_data,])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -67,12 +75,4 @@ fn main() {
 #[cfg(test)]
 mod test {
     use super::*;
-
-    #[test]
-    fn testtest() {
-        let board=  get_dummy_data();
-        println!("board: {:?}", board);
-        assert_eq!(4, board.columns.len());
-        assert_eq!(4, board.columns[0].cards.len());
-    }
 }

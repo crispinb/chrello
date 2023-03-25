@@ -20,7 +20,9 @@ cvapi = { path="../../cvcap" }
 cvcap = { path="../../cvcap/cli/" }
 specta = "1.0.0"
 tauri-specta = { version = "1.0.0", features = ["typescript", "javascript"] }
-random-string = "1.0.0"
+# these kind of belong in dev-deps
+fake = {version="2.5.0", features= ["derive"] }
+rand = "0.8.5"
 
 [features]
 # by default Tauri runs in production mode
@@ -31,5 +33,3 @@ default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
 
 [dev-dependencies]
-fake = {version="2.5.0", features=["derive"]}
-rand = "0.8.5"
